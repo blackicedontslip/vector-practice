@@ -1,0 +1,106 @@
+#include <iostream>
+#include <regex>
+#include <string>
+#include <vector>
+
+using namespace std;
+bool compare (vector<int> arr, int x) //return true+false value
+{
+    // false means new row
+    bool result = false;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        
+        if (arr[i] > x)
+        {
+            result = true;
+        }
+    }
+    
+    return result;
+
+}
+
+int solution(vector<int> A) 
+{// false means new row
+ 
+    
+    // holds a list of students for a particular row
+    vector<int> tempRow;
+    
+    int height[5] = {5,4,3,6,1};
+     
+     
+    // final number of rows
+    int num_of_rows = 0;
+    
+    // looping through the full list of student heights
+    for (int i = 0; i < 5; i++)
+    {
+        
+        // if now rows yet, create one and add student height (i=0) to the row (tempRow)
+        if (num_of_rows == 0)
+        {
+            // add student height to row
+            tempRow.push_back(height[i]);
+            
+            // increase count for the number of rows
+            ++num_of_rows;
+            
+        }
+        else
+        {
+            // check if student height stays in row or now
+            bool stay_in_row = compare (tempRow, height[i]);
+            if (stay_in_row)
+            {
+                
+                // add student height to row
+                tempRow.push_back(height[i]);
+                
+                
+            }
+            else
+            {
+                // increase count for number of rows
+                ++num_of_rows;
+               
+                // reset the tempRow, clear contents because we don't need to store them
+                tempRow.clear();
+                
+                // add student to new row
+                tempRow.push_back(height[i]);
+                
+            }
+        }
+    
+    }
+    // output the final number of rows
+    return num_of_rows;
+
+}
+
+// bool compare temp row and value: returns if any value in temp row is bigger than x
+// tells if a height (student's height) should stay in a row or not
+
+
+vector<int> toIntVector(string str)
+{
+  std::vector<int> out;
+  std::string i;
+  std::istringstream tokenStream(str);
+  while (std::getline(tokenStream, i, ','))
+  {
+    out.push_back(atoi(i.c_str()));
+  }
+  return out;
+}
+
+int main()
+{
+  // Read in from stdin, solve the problem, and write answer to stdout.
+  string AS;
+  cin >> AS;
+  vector<int> A = toIntVector(AS);
+  cout << solution(A);
+}
